@@ -1,4 +1,4 @@
-# Culture Amp Coding Challenge
+# Coding Challenge
 ### Surveyor CLI Application
 
 A CLI application to parse and display survey data from CSV files.
