@@ -36,5 +36,3 @@ Usage: ruby bin/survey-tool
     -r, --responses FILE                Responses data input file
     -h, --help                          Show this message
 ```
-
-## More Information

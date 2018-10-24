@@ -2,13 +2,12 @@ require "spec_helper"
 require "yaml"
 
 RSpec.describe Surveyor::Survey do
-  let(:survey_1) { described_class.new(name: "Survey 1", survey: "example-data/survey-1.csv", responses: "example-data/survey-1-responses.csv") }
-  let(:survey_2) { described_class.new(name: "Survey 2", survey: "example-data/survey-2.csv", responses: "example-data/survey-2-responses.csv") }
-  let(:survey_3) { described_class.new(name: "Survey 3", survey: "example-data/survey-3.csv", responses: "example-data/survey-3-responses.csv") }
-  let(:survey_4) { described_class.new(name: "Survey 4", survey: "example-data/survey-4.csv", responses: "example-data/survey-4-responses.csv") }
+  let(:survey_1) { described_class.new(name: "Survey 1") }
+  let(:survey_2) { described_class.new(name: "Survey 2") }
 
   context "when initalised with correct path to survey and responses that include data" do
     it "returns the correct questions" do
+      survey_1.add_questions("example-data/survey-1.csv")
       expect(survey_1.questions.map(&:inspect)).to eq(
         [
           {
@@ -45,6 +44,7 @@ RSpec.describe Surveyor::Survey do
       )
     end
     it "returns the correct responses" do
+      survey_1.add_responses("example-data/survey-1-responses.csv")
       expect(survey_1.responses.map(&:inspect)).to eq(
         [
           {
@@ -189,6 +189,7 @@ RSpec.describe Surveyor::Survey do
       )
     end
     it "returns the correct participants" do
+      survey_1.add_responses("example-data/survey-1-responses.csv")
       expect(survey_1.participants.map(&:inspect)).to eq(
         [
           {
@@ -310,12 +311,16 @@ RSpec.describe Surveyor::Survey do
       )
     end
     it "returns the correct participant count" do
+      survey_1.add_responses("example-data/survey-1-responses.csv")
       expect(survey_1.participant_count).to eq(5)
     end
     it "returns the correct participant percentage" do
+      survey_1.add_responses("example-data/survey-1-responses.csv")
       expect(survey_1.participation_percentage).to eq(83.33)
     end
     it "returns the correct rating question breakdown" do
+      survey_1.add_questions("example-data/survey-1.csv")
+      survey_1.add_responses("example-data/survey-1-responses.csv")
       expect(survey_1.rating_question_average).to eq(
         [
           {
@@ -347,6 +352,8 @@ RSpec.describe Surveyor::Survey do
       )
     end
     it "returns a string containing a human-readable representation of the survey" do
+      survey_1.add_questions("example-data/survey-1.csv")
+      survey_1.add_responses("example-data/survey-1-responses.csv")
       expect(YAML.safe_load(survey_1.inspect)).to eq(
         "Participation Status" => {
           "Submitted" => {
@@ -387,25 +394,27 @@ RSpec.describe Surveyor::Survey do
 
   context "when initalised with survey and responses that contain no data" do
     it "returns the correct questions" do
-      expect(survey_4.questions.map(&:inspect)).to eq([])
+      survey_2.add_questions("example-data/survey-4.csv")
+      expect(survey_2.questions.map(&:inspect)).to eq([])
     end
     it "returns the correct responses" do
-      expect(survey_4.responses.map(&:inspect)).to eq([])
+      survey_2.add_responses("example-data/survey-4-responses.csv")
+      expect(survey_2.responses.map(&:inspect)).to eq([])
     end
     it "returns the correct participants" do
-      expect(survey_4.participants.map(&:inspect)).to eq([])
+      expect(survey_2.participants.map(&:inspect)).to eq([])
     end
     it "returns the correct participant count" do
-      expect(survey_4.participant_count).to eq(0)
+      expect(survey_2.participant_count).to eq(0)
     end
     it "returns the correct participant percentage" do
-      expect(survey_4.participation_percentage).to eq(0)
+      expect(survey_2.participation_percentage).to eq(0)
     end
     it "returns the correct rating question breakdown" do
-      expect(survey_4.rating_question_average).to eq([])
+      expect(survey_2.rating_question_average).to eq([])
     end
     it "returns a string containing a human-readable representation of the survey" do
-      expect(YAML.safe_load(survey_4.inspect)).to eq(
+      expect(YAML.safe_load(survey_2.inspect)).to eq(
         "Participation Status" => {
           "Submitted" => {
             "Percentage" => "0%",

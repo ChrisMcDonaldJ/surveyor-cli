@@ -49,7 +49,7 @@ module Surveyor
 
     # Returns an array of participants that have submitted the survey.
     def participants
-      @responses.select(&:submitted?)
+      responses.select(&:submitted?)
     end
 
     # Returns the total number of participants.
@@ -87,37 +87,37 @@ module Surveyor
       array.empty? ? 0 : array.map(&:to_i).instance_eval { reduce(:+) / size.to_f }.round(2)
     end
 
-    # EXPERIMENTAL: Returns breakdown of rating questions with the average rating sorted by theme.
-    def rating_question_average_by_theme
-      questions.map(&:theme).uniq.map do |theme|
-        {
-          "Theme" => theme,
-          "Overall Average Rating" => return_average(return_averages_by_theme(theme)),
-          "Rating Questions" => return_questions_by_theme(theme),
-        }
-      end
-    end
+    # Returns breakdown of rating questions with the average rating sorted by theme.
+    # def rating_question_average_by_theme
+    #   questions.map(&:theme).uniq.map do |theme|
+    #     {
+    #       "Theme" => theme,
+    #       "Overall Average Rating" => return_average(return_averages_by_theme(theme)),
+    #       "Rating Questions" => return_questions_by_theme(theme),
+    #     }
+    #   end
+    # end
 
-    # EXPERIMENTAL: Returns an array of all the questions to a particular theme.
+    # Returns an array of all the questions to a particular theme.
     # ==== Attributes
     # * +theme+ - theme of question within Survey
-    def return_questions_by_theme(theme)
-      questions.select { |question| question.type == "ratingquestion" && question.theme == theme }.map do |question|
-        {
-          "Question" => question.text,
-          "Average Rating" => return_average(return_answers_by_id(question.id)),
-        }
-      end
-    end
+    # def return_questions_by_theme(theme)
+    #   questions.select { |question| question.type == "ratingquestion" && question.theme == theme }.map do |question|
+    #     {
+    #       "Question" => question.text,
+    #       "Average Rating" => return_average(return_answers_by_id(question.id)),
+    #     }
+    #   end
+    # end
 
-    # EXPERIMENTAL: Returns an array of all the question averages to a particular theme.
+    # Returns an array of all the question averages to a particular theme.
     # ==== Attributes
     # * +theme+ - theme of question within Survey
-    def return_averages_by_theme(theme)
-      questions
-        .select { |question| question.type == "ratingquestion" && question.theme == theme }
-        .map { |question| return_average(return_answers_by_id(question.id)) }
-    end
+    # def return_averages_by_theme(theme)
+    #   questions
+    #     .select { |question| question.type == "ratingquestion" && question.theme == theme }
+    #     .map { |question| return_average(return_answers_by_id(question.id)) }
+    # end
 
     # Returns a string containing a human-readable representation of the object.
     def inspect
@@ -129,7 +129,7 @@ module Surveyor
             "Amount" => participant_count,
           },
         },
-        "Rating Questions Breakdown" => breakdown == [] ? "No rating questions found." : breakdown.sort_by { |response| response["Average Rating"] },
+        "Rating Questions Breakdown" => breakdown == [] ? "No rating questions found." : breakdown.sort_by { |response| response["Average Rating"] }, # .group_by { |response| response["Theme"] },
       }.to_yaml
     end
   end
