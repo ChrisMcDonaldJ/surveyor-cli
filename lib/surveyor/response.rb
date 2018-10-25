@@ -22,8 +22,8 @@ module Surveyor
       !submitted_at.nil?
     end
 
-    def add_answer(answer)
-      answers.push(answer)
+    def answer_for_question(id)
+      answers.find { |answer| answer.id == id }
     end
   end
 end
