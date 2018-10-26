@@ -40,7 +40,7 @@ module Surveyor
       end
     end
 
-    # Returns an array of answer objects that have submitted from a response.
+    # Returns an array of answer objects.
     def add_answers(array)
       array.map.with_index do |answer, index|
         Answer.new(id: index, value: answer)
@@ -68,14 +68,14 @@ module Surveyor
         {
           "Question" => question.text,
           "Theme" => question.theme,
-          "Average Rating" => return_average(answers_for_question(question.id)),
+          "Average Rating" => average(answers_for_question(question.id)),
         }
       end
     end
 
     # Returns an array of all the answers to a particular question.
     # ==== Attributes
-    # * +id+ - id or position of question within Survey
+    # * +id+ - id or position of rating question within Survey
     def answers_for_question(id)
       participants.map { |response| response.answer_for_question(id).value }.compact
     end
@@ -83,10 +83,9 @@ module Surveyor
     # Returns the average of an array of integers.
     # ==== Attributes
     # * +array+ - Array of intgers
-    def return_average(array)
+    def average(array)
       array.empty? ? 0 : array.map(&:to_i).instance_eval { reduce(:+) / size.to_f }.round(2)
     end
-
 
     # Returns a string containing a human-readable representation of the object.
     def inspect
@@ -98,7 +97,7 @@ module Surveyor
             "Amount" => participant_count,
           },
         },
-        "Rating Questions Breakdown" => breakdown == [] ? "No rating questions found." : breakdown.sort_by { |response| response["Average Rating"] }, # .group_by { |response| response["Theme"] },
+        "Overview" => breakdown == [] ? "No rating questions found." : breakdown.sort_by { |response| response["Average Rating"] }, # .group_by { |response| response["Theme"] },
       }.to_yaml
     end
   end

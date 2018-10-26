@@ -361,7 +361,7 @@ RSpec.describe Surveyor::Survey do
             "Amount" => 5,
           },
         },
-        "Rating Questions Breakdown" => [
+        "Overview" => [
           {
             "Question" => "I feel empowered to get the work done for which I am responsible.",
             "Theme" => "The Place",
@@ -421,7 +421,7 @@ RSpec.describe Surveyor::Survey do
             "Amount" => 0,
           },
         },
-        "Rating Questions Breakdown" => "No rating questions found.",
+        "Overview" => "No rating questions found.",
       )
     end
   end
