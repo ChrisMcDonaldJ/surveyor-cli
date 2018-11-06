@@ -1,5 +1,5 @@
-# Coding Challenge
-### Surveyor CLI Application
+# Surveyor CLI Application
+### Coding Challenge
 
 A CLI application to parse and display survey data from CSV files.
 
