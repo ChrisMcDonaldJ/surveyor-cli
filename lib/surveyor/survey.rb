@@ -69,6 +69,7 @@ module Surveyor
           "Question" => question.text,
           "Theme" => question.theme,
           "Average Rating" => average(answers_for_question(question.id)),
+          "Breakdown" => answer_breakdown(question.id),
         }
       end
     end
@@ -78,6 +79,17 @@ module Surveyor
     # * +id+ - id or position of rating question within Survey
     def answers_for_question(id)
       participants.map { |response| response.answer_for_question(id).value }.compact
+    end
+
+    # Answer breakdown for rating questions
+    def answer_breakdown(id)
+      results = participants
+        .map { |response| response.answer_for_question(id) }
+        .group_by(&:value)
+        .map { |rating, answers| [rating.to_i, answers.count] }
+        .to_h
+
+      {1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0}.merge(results)
     end
 
     # Returns the average of an array of integers.

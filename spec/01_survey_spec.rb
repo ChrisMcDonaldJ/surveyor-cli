@@ -432,4 +432,24 @@ RSpec.describe Surveyor::Survey do
     it "responds with file not correct format message" do
     end
   end
+
+  context "answer_breakdown" do
+    it "returns a breakdown of a rating question" do
+      survey_1.add_questions("example-data/survey-1.csv")
+      survey_1.add_responses("example-data/survey-1-responses.csv")
+      question = Surveyor::Question.new(
+        id: 0,
+        text: "I like the kind of work I do.",
+        theme: "The Work",
+        type: "ratingquestion",
+      )
+      expect(survey_1.answer_breakdown(question.id)).to eq(
+        1 => 0,
+        2 => 0,
+        3 => 0,
+        4 => 2,
+        5 => 3,
+      )
+    end
+  end
 end
