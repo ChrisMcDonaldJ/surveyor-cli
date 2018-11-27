@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Christopher McDonald"]
   spec.email         = ["chris.mcdonald.j@gmail.com"]
 
-  spec.summary       = "Culture Amp Site Reliability Intern Coding Test"
+  spec.summary       = "Surveyor CLI Application"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
