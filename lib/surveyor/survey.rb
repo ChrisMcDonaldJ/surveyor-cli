@@ -12,8 +12,6 @@ module Surveyor
     end
 
     # Returns an array of hashes to questions from the CSV file provided.
-    # ==== Attributes
-    # * +file+ - Path to CSV file
     def add_questions(file)
       raise "File does not exist" unless File.file?(file)
       raise "File is not a CSV file" unless File.extname(file) == ".csv"
@@ -24,8 +22,6 @@ module Surveyor
     end
 
     # Returns an array of hashes to responses from the CSV file provided.
-    # ==== Attributes
-    # * +file+ - Path to CSV file
     def add_responses(file)
       raise "File does not exist" unless File.file?(file)
       raise "File is not a CSV file" unless File.extname(file) == ".csv"
@@ -75,8 +71,6 @@ module Surveyor
     end
 
     # Returns an array of all the answers to a particular question.
-    # ==== Attributes
-    # * +id+ - id or position of rating question within Survey
     def answers_for_question(id)
       participants.map { |response| response.answer_for_question(id).value }.compact
     end
@@ -93,8 +87,6 @@ module Surveyor
     end
 
     # Returns the average of an array of integers.
-    # ==== Attributes
-    # * +array+ - Array of intgers
     def average(array)
       array.empty? ? 0 : array.map(&:to_i).instance_eval { reduce(:+) / size.to_f }.round(2)
     end
