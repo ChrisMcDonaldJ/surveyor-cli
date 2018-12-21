@@ -88,7 +88,7 @@ module Surveyor
 
     # Returns the average of an array of integers.
     def average(array)
-      array.empty? ? 0 : array.map(&:to_i).instance_eval { reduce(:+) / size.to_f }.round(2)
+      array.sum(0.0) / array.length
     end
 
     # Returns a string containing a human-readable representation of the object.
